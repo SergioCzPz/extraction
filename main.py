@@ -7,48 +7,63 @@ from models.product import Product
 from pathlib import Path
 
 
-def get_products_from_excel_file(file_path: str):
+def get_info_products(path_file:str) -> List[Product]:
     products = []
 
-    df = pd.read_excel(file_path, header=2)
-
-    if "TIPO" in df.columns:
-        df["TIPO"] = df["TIPO"].ffill()
+    try:
+        df = pd.read_excel(path_file, header=0)
+    except:
+        print("Error: File not found")
+        return []
+    
+    if 'TIPO' in df.columns:
+        df['TIPO'] = df['TIPO'].ffill()
 
     for index, row in df.iterrows():
-        raw_sku = row.get("CÓDIGO")
-        raw_title = row.get("DESCRIPCION")
-        raw_price = row.get("PRECIO")
-        raw_type = row.get("TIPO")
+        raw_sku = row.get('CÓDIGO')
+        raw_title = row.get('DESCRIPCION')
+        raw_price = row.get('PRECIO')
+        raw_type = row.get('TIPO')
 
         if pd.isna(raw_sku):
             continue
 
-        try:
-            if isinstance(raw_price, str):
-                clean_price = raw_price.replace("$", "").replace(",", "").strip()
-                price = float(clean_price)
-            else:
-                price = float(raw_price)
-        except (ValueError, TypeError):
-            price = 0.0
+        price = 0.0
+        if pd.notna(raw_price):
+            try:
+                if isinstance(raw_price, str):
+                    clean_price = raw_price.replace('$', '').replace(',','').strip()
+                    price = float(clean_price)
+                else:
+                    price = float(raw_price)
+            except ValueError:
+                price = 0.0
 
         product = Product(
-            sku=str(raw_sku), title=(raw_title).strip(), price=price, type=str(raw_type)
+            sku=str(raw_sku).strip(),
+            title=str(raw_title).strip() if pd.notna(raw_title) else "",
+            price=price,
+            type=str(raw_type).strip() if pd.notna(raw_type) else ""
         )
 
         products.append(product)
-
+    
     return products
 
+if __name__ == "__main__":
 
-products = get_products_from_excel_file(
-    "./files/LISTA_PRECIOS_FEBRERO_ARTLITE_2025.xlsx"
-)
+    file_paths = ["LISTA_PRECIOS_FEBRERO_ARTLITE_2025_NO_IMAGES.xlsx", "LISTA_PRECIOS_MAYO_WINLED_2025_NO_IMAGES.xlsx", "PLACAS_PRECIOS_FEBRERO_ARTLITE_2025_NO_IMAGES.xlsx"]
 
-for product in products:
-    print(f"SKU: {product.sku} | Precio: ${product.price} | Título: {product.title}")
+    for path in file_paths:
+        file_path = f"./files/{path}"
+        products = get_info_products(file_path)
 
+        print(f"There are {len(products)} in the excel file")
+
+        for product in products:
+            print(product)
+
+        products = []
 # headers = {
 #     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
 # }

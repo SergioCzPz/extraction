@@ -15,5 +15,5 @@ class Product:
         self.text = text
         self.type = type
 
-    def __repr__(self) -> str:
-        return f"Product(sku='{self.sku}', price={self.price}, title='{self.title[:20]}...')"
+    def __repr__(self):
+        return f"Product(sku='{self.sku}', type='{self.type}', price={self.price})"
