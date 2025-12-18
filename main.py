@@ -1,5 +1,6 @@
 import requests
 import json
+import os
 import pandas as pd
 from typing import List
 from bs4 import BeautifulSoup
@@ -60,6 +61,12 @@ def scrap_product_from_website(sku: str) -> ScraptProduct:
     }
 
     res = requests.get(f"https://www.innlite.com/product/{sku}/", headers=headers)
+
+    if res.status_code == 404:
+        raise FileNotFoundError(f"SKU {sku} not found")
+
+    res.raise_for_status()
+
     soup = BeautifulSoup(res.content, "html.parser")
 
     title_el = soup.find("h1", class_="product_title entry-title")
@@ -79,17 +86,16 @@ def scrap_product_from_website(sku: str) -> ScraptProduct:
         if next_text:
             brand = next_text.strip().title()
 
-    print(f"sku.lower(): {sku.lower()}")
-    print(f"title_el.text.strip().lower(): {title_el.text.strip().lower()}")
-    print(f"sku_el.text.strip().lower(): {sku_el.text.strip().lower()}")
-
     if (
         sku.lower() not in title_el.text.strip().lower()
         and sku.lower() not in sku_el.text.strip().lower()
     ):
         # register to fail.json
-        print(f"Problem working with the product {sku}")
-        return
+        raise FileNotFoundError(f"Problem working with SKU: {sku}")
+
+    print(f"sku.lower(): {sku.lower()}")
+    print(f"title_el.text.strip().lower(): {title_el.text.strip().lower()}")
+    print(f"sku_el.text.strip().lower(): {sku_el.text.strip().lower()}")
 
     img_src = img_el.get("src")
     text_product = text_product_el.find_all("p")
@@ -134,6 +140,24 @@ def save_product(products: List[dict], file_path: str = "./products.json") -> No
         print(f"Error on saving: {e}")
 
 
+def save_sku_not_found(sku: str, file_path: str = "./sku-products-not-found.json"):
+    print(f"Product with sku: {sku} not found")
+    sku_not_found = []
+
+    if os.path.exists(file_path):
+        try:
+            with open(file_path, "r", encoding="utf-8") as f:
+                sku_not_found = json.load(f)
+        except:
+            sku_not_found = []
+
+    if sku not in sku_not_found:
+        sku_not_found.append(sku)
+
+    with open(file_path, "w", encoding="utf-8") as f:
+        json.dump(sku_not_found, f, indent=4)
+
+
 if __name__ == "__main__":
 
     # file_paths = [
@@ -157,12 +181,21 @@ if __name__ == "__main__":
 
         for product_from_excel in products_from_excel:
             print(f"product_from_excel {product_from_excel}")
-            product_scrapted = scrap_product_from_website(product_from_excel.sku)
+            try:
+                product_scrapted = scrap_product_from_website(product_from_excel.sku)
 
-            dictionary_product = convert_product_to_dictionary(
-                excel_product=product_from_excel, scrapt_product=product_scrapted
-            )
+                dictionary_product = convert_product_to_dictionary(
+                    excel_product=product_from_excel, scrapt_product=product_scrapted
+                )
 
-            products.append(dictionary_product)
+                products.append(dictionary_product)
+
+            except FileNotFoundError:
+                print(f"[ERROR] with SKU: {product_from_excel.sku}")
+                save_sku_not_found(product_from_excel.sku)
+
+            except Exception as e:
+                print(f"Error occur during SKU: {product_from_excel.sku} scrapping")
+                print(f"[ERROR]: {e}")
 
     save_product(products=products, file_path="./products.json")

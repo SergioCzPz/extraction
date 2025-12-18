@@ -1,0 +1,38 @@
+[
+    {
+        "sku": "ADO-001",
+        "title": "PANEL LED REDONDO SLIM 3W 250LM 90-277VCA INTERIOR IP20 BLANCO FRÍO 6500K",
+        "price": 49.2072,
+        "type": "Downlight",
+        "brand": "Artlite",
+        "image_src": "https://www.innlite.com/wp-content/uploads/2025/08/ADO-001-009-JPG2024.jpg",
+        "info_text": [
+            "El panel slim es perfecto para empotrar en interiores como tablaroca o plafón. Su diseño es innovador y muy delgado (slim) permitiendo una fácil instalación. Su instalación es simple ya que cuenta con un driver multivoltaje y broches de presión. Diámetro Empotrable de 7.3cm.",
+            "TIPO: PANEL WATTS: 3W VOLTAJE: 90-277V CA 50/60 Hz LÚMENES: 250 LM APERTURA: 120° TEMP. COLOR: 6500K BLANCO FRÍO MEDIDA: 88×18 mm PESO: 60 gr. EMPOTRAMIENTO: 73mm MATERIAL: LÁMINA + POLICARBONATO ATENUABLE: NO OPERACIÓN: -10 A 40°C IP 20"
+        ]
+    },
+    {
+        "sku": "ADO-009",
+        "title": "PANEL LED REDONDO SLIM 3W 230LM 90-277VCA INTERIOR IP20 BLANCO CÁLIDO 3000K",
+        "price": 49.2072,
+        "type": "Downlight",
+        "brand": "Artlite",
+        "image_src": "https://www.innlite.com/wp-content/uploads/2025/08/ADO-001-009-JPG2024.jpg",
+        "info_text": [
+            "El panel slim es perfecto para empotrar en interiores como tablaroca o plafón. Su diseño es innovador y muy delgado (slim) permitiendo una fácil instalación. Su instalación es simple ya que cuenta con un driver multivoltaje y broches de presión. Diámetro Empotrable de 7.3cm.",
+            "TIPO: PANEL WATTS: 3W VOLTAJE: 90-277V CA 50/60 Hz LÚMENES: 230 LM APERTURA: 120° TEMP. COLOR: 3000K BLANCO CÁLIDO MEDIDA: 88×18 mm PESO: 60 gr. EMPOTRAMIENTO: 73mm MATERIAL: LÁMINA + POLICARBONATO ATENUABLE: NO OPERACIÓN: -10 A 40°C IP 20"
+        ]
+    },
+    {
+        "sku": "ADO-002",
+        "title": "PANEL LED REDONDO SLIM 6W 500LM 90-277VCA INTERIOR IP20 BLANCO FRÍO 6500K",
+        "price": 63.2664,
+        "type": "Downlight",
+        "brand": "Artlite",
+        "image_src": "https://www.innlite.com/wp-content/uploads/2025/08/ADO-002-010-JPG2024.jpg",
+        "info_text": [
+            "El panel slim es perfecto para empotrar en interiores como tablaroca o plafón. Su diseño es innovador y muy delgado (slim) permitiendo una fácil instalación. Su instalación es simple ya que cuenta con un driver multivoltaje y broches de presión. Diámetro Empotrable de 10.3cm.",
+            "TIPO: PÁNEL WATTS: 6W VOLTAJE: 90-277VCA 50/60 HZ LÚMENES: 500 LM APERTURA: 120° TEMP. COLOR: 6500K BLANCO FRÍO DIMENSIONES: 119X18 mm EMPOTRAMIENTO: 103mm PESO: 90gr. MATERIAL: LÁMINA + POLICARBONATO ATENUABLE: NO OPERACIÓN: -10 A 40°C IP 20"
+        ]
+    }
+]
