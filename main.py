@@ -1,4 +1,5 @@
 import requests
+import json
 import pandas as pd
 from typing import List
 from bs4 import BeautifulSoup
@@ -43,7 +44,7 @@ def get_info_products_from_excel(path_file: str) -> List[ExcelProduct]:
             sku=str(raw_sku).strip(),
             title=str(raw_title).strip() if pd.notna(raw_title) else "",
             price=price,
-            type=str(raw_type).strip() if pd.notna(raw_type) else "",
+            type=str(raw_type).strip().capitalize() if pd.notna(raw_type) else "",
         )
 
         products.append(product)
@@ -107,7 +108,7 @@ def scrap_product_from_website(sku: str) -> ScraptProduct:
     return product_scrapted
 
 
-def add_product_to_json_file(
+def convert_product_to_dictionary(
     scrapt_product: ScraptProduct, excel_product: ExcelProduct
 ) -> Product:
     product = Product(
@@ -118,8 +119,19 @@ def add_product_to_json_file(
         brand=scrapt_product.brand,
         image_src=scrapt_product.image_src,
         info_text=scrapt_product.info_text,
-    ).to_dict()
+    )
+    return product.to_dict()
 
+
+def save_product(products: List[dict], file_path: str = "./products.json") -> None:
+    try:
+        with open(file_path, "w", encoding="utf-8") as f:
+            json.dump(products, f, ensure_ascii=False, indent=4)
+        print(
+            f"Products Successfully Saved {len(products)} Products saved on {file_path}"
+        )
+    except Exception as e:
+        print(f"Error on saving: {e}")
 
 
 if __name__ == "__main__":
@@ -134,6 +146,8 @@ if __name__ == "__main__":
         "PRUEBA.xlsx",
     ]
 
+    products = []
+
     for path in file_paths:
         file_path = f"./files/{path}"
         products_from_excel = get_info_products_from_excel(file_path)
@@ -145,4 +159,10 @@ if __name__ == "__main__":
             print(f"product_from_excel {product_from_excel}")
             product_scrapted = scrap_product_from_website(product_from_excel.sku)
 
-        products = []
+            dictionary_product = convert_product_to_dictionary(
+                excel_product=product_from_excel, scrapt_product=product_scrapted
+            )
+
+            products.append(dictionary_product)
+
+    save_product(products=products, file_path="./products.json")
