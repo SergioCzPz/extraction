@@ -160,15 +160,15 @@ def save_sku_not_found(sku: str, file_path: str = "./sku-products-not-found.json
 
 if __name__ == "__main__":
 
-    # file_paths = [
-    #     "LISTA_PRECIOS_FEBRERO_ARTLITE_2025_NO_IMAGES.xlsx",
-    #     "LISTA_PRECIOS_MAYO_WINLED_2025_NO_IMAGES.xlsx",
-    #     "PLACAS_PRECIOS_FEBRERO_ARTLITE_2025_NO_IMAGES.xlsx",
-    # ]
-
     file_paths = [
-        "PRUEBA.xlsx",
+        "LISTA_PRECIOS_FEBRERO_ARTLITE_2025_NO_IMAGES.xlsx",
+        "LISTA_PRECIOS_MAYO_WINLED_2025_NO_IMAGES.xlsx",
+        "PLACAS_PRECIOS_FEBRERO_ARTLITE_2025_NO_IMAGES.xlsx",
     ]
+
+    # file_paths = [
+    #     "PRUEBA.xlsx",
+    # ]
 
     products = []
 
